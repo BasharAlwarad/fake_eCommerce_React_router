@@ -1,26 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useContext } from 'react';
 import { Link } from 'react-router';
-import { getCartFromStorage, getTotalPrice } from '../utils/cartStorage';
+import { CartContext } from '../context/CartContext';
 
 const Nav = () => {
-  const [cart, setCart] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(0);
-
-  useEffect(() => {
-    const cartItems = getCartFromStorage();
-    setCart(cartItems);
-    setTotalPrice(getTotalPrice(cartItems));
-
-    // Listen for cart updates
-    const handleCartUpdate = () => {
-      const updatedCart = getCartFromStorage();
-      setCart(updatedCart);
-      setTotalPrice(getTotalPrice(updatedCart));
-    };
-
-    window.addEventListener('cartUpdated', handleCartUpdate);
-    return () => window.removeEventListener('cartUpdated', handleCartUpdate);
-  }, []);
+  const { cart, totalPrice } = useContext(CartContext);
 
   return (
     <div className="navbar bg-base-100 shadow-sm">

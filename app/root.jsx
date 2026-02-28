@@ -9,6 +9,7 @@ import {
 
 import './app.css';
 import Nav from './components/Nav';
+import { CartProvider } from './context/CartContext';
 
 export const links = () => [
   { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
@@ -43,10 +44,10 @@ export function Layout({ children }) {
 
 export default function App() {
   return (
-    <>
+    <CartProvider>
       <Nav />
       <Outlet />
-    </>
+    </CartProvider>
   );
 }
 

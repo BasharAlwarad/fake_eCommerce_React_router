@@ -1,12 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useContext } from 'react';
 import { Link } from 'react-router';
-import {
-  getCartFromStorage,
-  removeFromCart,
-  updateCartQuantity,
-  clearCart,
-  getTotalPrice,
-} from '../utils/cartStorage';
+import { CartContext } from '../context/CartContext';
 
 export function meta() {
   return [
@@ -16,40 +10,22 @@ export function meta() {
 }
 
 export default function Cart() {
-  const [cart, setCart] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const cartItems = getCartFromStorage();
-    setCart(cartItems);
-    setIsLoading(false);
-  }, []);
+  const { cart, removeFromCart, updateQuantity, clearCart, totalPrice } =
+    useContext(CartContext);
 
   const handleRemove = (productId) => {
     removeFromCart(productId);
-    setCart(getCartFromStorage());
-    window.dispatchEvent(new Event('cartUpdated'));
   };
 
   const handleQuantityChange = (productId, quantity) => {
-    updateCartQuantity(productId, quantity);
-    setCart(getCartFromStorage());
-    window.dispatchEvent(new Event('cartUpdated'));
+    updateQuantity(productId, quantity);
   };
 
   const handleClearCart = () => {
     if (window.confirm('Are you sure you want to clear your cart?')) {
       clearCart();
-      setCart([]);
-      window.dispatchEvent(new Event('cartUpdated'));
     }
   };
-
-  if (isLoading) {
-    return <div className="text-center p-8">Loading...</div>;
-  }
-
-  const totalPrice = getTotalPrice(cart);
 
   return (
     <div className="min-h-screen bg-base-200 p-8">

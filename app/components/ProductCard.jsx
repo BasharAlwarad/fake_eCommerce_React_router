@@ -1,16 +1,15 @@
-import { useState } from 'react';
-import { addToCart } from '../utils/cartStorage';
+import { useState, useContext } from 'react';
+import { CartContext } from '../context/CartContext';
 
 const ProductCard = ({ product }) => {
   const [isAdding, setIsAdding] = useState(false);
   const [addedMessage, setAddedMessage] = useState(false);
+  const { addToCart } = useContext(CartContext);
 
   const handleAddToCart = () => {
     setIsAdding(true);
     addToCart(product);
     setAddedMessage(true);
-    // Dispatch custom event for navbar to listen
-    window.dispatchEvent(new Event('cartUpdated'));
     setTimeout(() => setAddedMessage(false), 2000);
     setIsAdding(false);
   };
