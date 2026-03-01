@@ -1,6 +1,5 @@
-import { useContext } from 'react';
 import { Link } from 'react-router';
-import { CartContext } from '../context/CartContext';
+import { useCart } from '../context/CartContext';
 
 export function meta() {
   return [
@@ -11,7 +10,7 @@ export function meta() {
 
 export default function Cart() {
   const { cart, removeFromCart, updateQuantity, clearCart, totalPrice } =
-    useContext(CartContext);
+    useCart();
 
   const handleRemove = (productId) => {
     removeFromCart(productId);
